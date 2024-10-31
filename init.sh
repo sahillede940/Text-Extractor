@@ -2,17 +2,25 @@
 
 # Start FastAPI backend
 echo "Starting FastAPI backend..."
+# if no python environment is set up, use the following command to create a virtual environment
+if [ ! -d "env" ]; then
+    pip install virtualenv
+    virtualenv env
+    source env/Scripts/activate
+fi
 # if env activated is not env, activate it
 if [ "$VIRTUAL_ENV" != "env" ]; then
     source env/Scripts/activate
 fi
 echo "Activated virtual environment"
+pip install -r requirements.txt
 uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
 BACKEND_PID=$!
 
 # Navigate to frontend directory and start the frontend
 echo "Starting Next.js frontend..."
 cd imagetotextui
+npm install
 npm run dev &
 FRONTEND_PID=$!
 

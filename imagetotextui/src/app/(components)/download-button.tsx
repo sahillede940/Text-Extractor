@@ -65,7 +65,7 @@ export function DownloadButton({ extractedData }: DownloadButtonProps) {
       <div>
         <Button onClick={handleDownload} className="m-2">
           <DownloadIcon className="mr-2 h-4 w-4" />
-          Download All Text (Excel)
+          Download Sheet (Excel)
         </Button>
         <Button onClick={handleDownloadDoc} className="m-2">
           <DownloadIcon className="mr-2 h-4 w-4" />
