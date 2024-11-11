@@ -8,6 +8,7 @@ import * as XLSX from "xlsx";
 interface ExtractedPage {
   page: number;
   text: string;
+  filtered_text: string;
 }
 
 interface ExtractedFileData {
@@ -29,6 +30,7 @@ export function DownloadButton({ extractedData }: DownloadButtonProps) {
       const rows = file.pages.map((page) => ({
         "Page Number": page.page,
         "Extracted Text": page.text,
+        "Filtered Text": page.filtered_text,
       }));
 
       const worksheet = XLSX.utils.json_to_sheet(rows);
@@ -50,7 +52,14 @@ export function DownloadButton({ extractedData }: DownloadButtonProps) {
   };
 
   const handleDownloadDoc = () => {
-    const text = extractedData.map((file) => file.pages.map((page) => page.text).join("\n")).join("\n");
+    const text = extractedData
+      .map((file, idx) => {
+        const pages = file.pages
+          .map((page) => `Image: ${idx}\nText: \n\n${page.text}`)
+          .join("----------------------------------------------------------------\n\n");
+        return `${file.fileName}\n\n${pages}`;
+      })
+      .join("\n\n");
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -62,7 +71,8 @@ export function DownloadButton({ extractedData }: DownloadButtonProps) {
 
   return (
     <>
-      <div>
+      {/* Sitick to top like navbar and bg blur*/}
+      <div className="sticky top-0 z-10 p-2 flex justify-center space-x-4 bg-card/50 backdrop-blur">
         <Button onClick={handleDownload} className="m-2">
           <DownloadIcon className="mr-2 h-4 w-4" />
           Download Sheet (Excel)

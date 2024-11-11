@@ -7,13 +7,14 @@ if [ "$VIRTUAL_ENV" != "env" ]; then
     source env/Scripts/activate
 fi
 echo "Activated virtual environment"
-uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+fastapi run &
 BACKEND_PID=$!
 
 # Navigate to frontend directory and start the frontend
 echo "Starting Next.js frontend..."
 cd imagetotextui
-npm run dev &
+npm run dev & 
+start http://localhost:3000
 FRONTEND_PID=$!
 
 # Define a cleanup function to kill both processes

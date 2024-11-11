@@ -11,7 +11,9 @@ interface ExtractedPage {
   type: "pdf" | "image";
   page: number;
   text: string;
-  image_base64: string;
+  filtered_text: string;
+  image_base64?: string;
+  pdf_base64?: string;
 }
 
 interface ExtractedFileData {
@@ -60,28 +62,21 @@ export function ExtractedContent({ data }: ExtractedContentProps) {
                     </Button>
                   </div>
 
-                  <div className={`grid  gap-4 ${page.image_base64 ? "grid-cols-1 md:grid-cols-2" : ""}`}>
-                    {page.image_base64 && (
-                      <div className="relative" style={{ height: "300px" }}>
-                        {page.type === "pdf" ? (
-                          <embed
-                            src={`data:application/pdf;base64,${page.image_base64}`}
-                            type="application/pdf"
-                            className="rounded-lg w-full h-full"
-                            title={`Page ${page.page}`}
-                          />
-                        ) : (
-                          <img
-                            src={`data:image/png;base64,${page.image_base64}`}
-                            alt={`Page ${page.page}`}
-                            className="rounded-lg object-cover w-full h-full"
-                          />
-                        )}
+                  <div className={`grid  gap-4 ${page.type == "image" ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2"}`}>
+                    {/* {page.type === "image" && (
+                      <div className="relative" style={{ height: "400px" }}>
+                        <img
+                          src={`data:image/png;base64,${page.image_base64}`}
+                          alt={`Page ${page.page}`}
+                          className="rounded-lg object-contain h-full justify-self-center"
+                        />
                       </div>
-                    )}
-
-                    <ScrollArea className="rounded-lg border p-4" style={{ height: "300px" }}>
+                    )} */}
+                    <ScrollArea className="rounded-lg border p-4">
                       <pre className="text-sm whitespace-pre-wrap font-mono">{page.text}</pre>
+                    </ScrollArea>
+                    <ScrollArea className="rounded-lg border p-4">
+                      <pre className="text-sm whitespace-pre-wrap font-mono">{page.filtered_text}</pre>
                     </ScrollArea>
                   </div>
                   <Separator className="my-4" />

@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html>
       <body>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <div className="dark min-h-screen bg-background font-mono">{children}</div>
+          <div className="dark min-h-screen bg-background font-sans">{children}</div>
           <Toaster />
         </ThemeProvider>
       </body>

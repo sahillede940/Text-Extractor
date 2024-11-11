@@ -14,7 +14,7 @@ if [ "$VIRTUAL_ENV" != "env" ]; then
 fi
 echo "Activated virtual environment"
 pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+fastapi dev main.py &
 BACKEND_PID=$!
 
 # Navigate to frontend directory and start the frontend

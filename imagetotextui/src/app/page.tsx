@@ -78,10 +78,10 @@ export default function TextExtractor() {
       }
 
       setExtractedData(results);
-    } catch (error) {
+    } catch (e) {
       toast({
         variant: "destructive",
-        title: "Error",
+        title: "Error" + e,
         description: "Failed to extract text from the uploaded files",
       });
     } finally {
